@@ -63,6 +63,7 @@ namespace SportsStore {
             app.UseStaticFiles();
             app.UseSession();
             app.UseIdentity();
+
             app.UseMvc(routes => {
                 routes.MapRoute(name: "Error", template: "Error",
                     defaults: new { controller = "Error", action = "Error" });

@@ -34,3 +34,17 @@ In earlier versions of ASP.NET, the System.Web assembly took care of starting th
   - Middleware components can perform logic before and after they pass control onto the next component.
   - The simplest possible web application is one with a single Middlware written as an anonymous lambda function inside `Startup.Configure()` that responds to any request with a "Hello, World!".
   - See Chapter 14 of Pro ASP.NET Core MVC - Configuring Applications.
+
+  ## Incorporating React (or some other SPA)
+
+  A Single Page Application (SPA) can be served up as a static file. To do this:
+
+  1. Program.Main() should include: `UseContentRoot(Directory.GetCurrentDirectory())`
+  2. Startup.Configure() should include: `app.UseStaticFiles();`
+  3. Also need dependency on: "Microsoft.AspNetCore.StaticFiles".
+
+With these in place the server will serve up anything under wwwroot. Therefore, we simply put the entire SPA under wwwroot. 
+
+It will also be necessary to change the MVC routing so there is no default route, in order that the index.html page gets served when the base application route is used.
+
+This can be a little tricky. See [this blog post](https://weblog.west-wind.com/posts/2013/aug/15/iis-default-documents-vs-aspnet-mvc-routes) to see why. Note the solution listed there no longer works. I will just carry on using the fully qualified file name until a better solution is found.
