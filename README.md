@@ -43,8 +43,6 @@ In earlier versions of ASP.NET, the System.Web assembly took care of starting th
   2. Startup.Configure() should include: `app.UseStaticFiles();`
   3. Also need dependency on: "Microsoft.AspNetCore.StaticFiles".
 
-With these in place the server will serve up anything under wwwroot. Therefore, we simply put the entire SPA under wwwroot. 
+With these in place the server will serve up anything under wwwroot. Therefore, we simply put the entire SPA under wwwroot. But beware! The MVC router will take control by default. Even if the `app.UseStaticFiles();` comes before `app.UseMvc()` so any route that matches an MVC route will be handled by the MVC framework. 
 
-It will also be necessary to change the MVC routing so there is no default route, in order that the index.html page gets served when the base application route is used.
-
-This can be a little tricky. See [this blog post](https://weblog.west-wind.com/posts/2013/aug/15/iis-default-documents-vs-aspnet-mvc-routes) to see why. Note the solution listed there no longer works. I will just carry on using the fully qualified file name until a better solution is found.
+So **matching the application's base URL** to wwwroot/index.html is a bit tricky. The solution to this problem is provided [here](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files). In order for your Web app to serve a default page without the user having to fully qualify the URI, call the UseDefaultFiles extension method from Startup.Configure as follows.
