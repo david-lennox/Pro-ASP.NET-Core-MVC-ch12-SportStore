@@ -59,7 +59,7 @@ namespace SportsStore {
             } else {
                 app.UseExceptionHandler("/Error");
             }
-
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSession();
             app.UseIdentity();
@@ -86,6 +86,7 @@ namespace SportsStore {
                     defaults: new { controller = "Product", action = "List", page = 1 }
                 );
 
+                // This route will be ignored because we have a wwwroot/index.html file and app.UseDefaultFiles() before these route definitions. So the base URL will serve up the index.html file.  
                 routes.MapRoute(
                     name: null,
                     template: "",
@@ -96,6 +97,5 @@ namespace SportsStore {
             SeedData.EnsurePopulated(app);
             IdentitySeedData.EnsurePopulated(app);
         }
-
     }
 }
